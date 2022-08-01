@@ -13,6 +13,25 @@ def block_samples(s, window_size, step):
     return np.lib.stride_tricks.as_strided(s, shape=shape, strides=strides)
 
 
+def CHTC(s: np.ndarray, ws: int=512, step: int=512) -> np.ndarray:
+    s = block_samples(s, ws, step)
+    L = s.shape[0]
+    n = np.concatenate((s[1:, :], np.zeros((1, ws), dtype=s.dtype)), axis=0)
+    s = np.concatenate((s, n), axis=-1)
+    o = []
+    for tau in range(ws):
+        c = s[:, :ws] * s[:, tau:(tau+ws)]
+        o.append(np.tanh(np.abs(c)))
+    
+    # tau, batch, block, ws
+    o = np.asarray(o).transpose((1, 0, 2))
+    # batch, tau, block, ws
+    o = np.mean(o, axis=-2) - np.expand_dims(np.mean(o, axis=(0, 1, 2)), axis=(0, 1))
+    o = fftshift(fft(o, axis=-1), axes=-1)
+    o = fftshift(fft(o, axis=0), axes=0)
+    return np.abs(o)
+
+
 def scf_fam(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=2) -> np.ndarray:
     '''
     I follow the wiki step by step to write this function:
