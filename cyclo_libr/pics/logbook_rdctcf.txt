@@ -1,0 +1,7 @@
+Start 
+test rdctcf, high SNR. 
+0.574781 
+test rdctcf, middle SNR. 
+0.322368 
+test rdctcf, low SNR. 
+0.053289 

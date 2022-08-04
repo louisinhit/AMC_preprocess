@@ -1,0 +1,19 @@
+ccsd ws 512 step 512 ks 1, 64
+
+sig = 0.2
+Start! 
+test ccsd slice image, high SNR. 
+0.637061 
+test ccsd slice image, high SNR. 
+0.282895 
+test ccsd slice image, high SNR. 
+0.047149 
+
+sig = 0.3
+Start! 
+test ccsd slice image, high SNR. 
+0.601974 
+test ccsd slice image, high SNR. 
+0.291228 
+test ccsd slice image, high SNR. 
+0.046930 

@@ -1,0 +1,31 @@
+without abs
+Start! 
+test tanh kernel, high SNR. 
+0.428947 
+test tanh kernel, middle SNR. 
+0.218860 
+test tanh kernel, low SNR. 
+0.069518 
+
+with abs
+Start! 
+test tanh kernel, high SNR. 
+0.575877 
+test tanh kernel, middle SNR. 
+0.310746 
+test tanh kernel, low SNR. 
+0.053070 
+Start! 
+test tanh kernel, high SNR. 
+0.390789 
+test tanh kernel, middle SNR. 
+0.191228 
+test tanh kernel, low SNR. 
+0.052412 
+Start! 
+test tanh kernel, high SNR. 
+0.399781 
+test tanh kernel, middle SNR. 
+0.181579 
+test tanh kernel, low SNR. 
+0.048904 

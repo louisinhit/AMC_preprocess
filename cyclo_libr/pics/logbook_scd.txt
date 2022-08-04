@@ -1,0 +1,7 @@
+Start 
+test scd, high SNR. 
+0.307895 
+test scd, middle SNR. 
+0.216228 
+test scd, low SNR. 
+0.067325 
