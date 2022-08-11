@@ -1,16 +1,13 @@
 import numpy as np
-import numpy
 import pywt
-import h5py, pickle, sys, argparse
-from scipy.fft import fft, fftfreq, fftshift
+import h5py, sys, argparse
+from scipy.fft import fft, fftshift
 import scipy.signal as scp
 from stockwell import st
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from sklearn.linear_model import LogisticRegression as LRG
 from sklearn.linear_model import SGDClassifier as SGD
-from sklearn.decomposition import PCA
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
 
