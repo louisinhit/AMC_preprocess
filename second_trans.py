@@ -167,11 +167,11 @@ def train_test(T, profile):
 ############################# main function
 ###############################################################
 for tt in trans_list:
-    sys_out("start {} train and test".format(tt))
+    sys_out("start {} graph train and test".format(tt))
     train_test(tt, False)
 
 for tt in trans_list:
-    sys_out("start {} train and test".format(tt))
+    sys_out("start {} profile train and test".format(tt))
     train_test(tt, True)
 
 sys_out('DONE')
