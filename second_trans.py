@@ -17,8 +17,10 @@ classifier_ = args.classifier
 
 if args.cuda:
     import so_cupy as so
+    print ('use cuda!')
 else:
     import so_numpy as so
+
 
 
 para = {'figure.figsize'  : (8, 6) }
