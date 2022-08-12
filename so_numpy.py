@@ -38,7 +38,7 @@ def CHTC(s, N, L):
     return np.asarray(o)
 
 
-def scd(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=0) -> np.ndarray:
+def scd(s: np.ndarray, ws: int=512, step: int=0, padding: bool=True, mtd: int=0) -> np.ndarray:
     '''
     I follow the wiki step by step to write this function:
     https://en.wikipedia.org/wiki/Spectral_correlation_density
@@ -101,7 +101,7 @@ def SCD(s: np.ndarray, N: int, L: int=0, pad: bool=True, algorithm: int=0) -> np
     return np.asarray(o)
 
 
-def ccsd(s: np.ndarray, ws: int, step: int, sigma: float) -> np.ndarray:
+def ccsd(s: np.ndarray, ws: int=512, step: int=256, sigma: float=0.3) -> np.ndarray:
     '''
     I follow the steps listed in this paper:
     https://www.sciencedirect.com/science/article/pii/S0957417416305607
