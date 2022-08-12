@@ -21,7 +21,7 @@ Our train and test only use a subset if it, as the original one has 20GB which i
 
 1.	Change the `hf = h5py.File('path/to/the/GOLD_XYZ_OSC.0001_1024.hdf5', 'r+')` in `gen_subset.py` into the path that can navigate to the dataset.
 
-2.	Use `train_test.sh` run the whole program, here you can choose different classifiers, if you have cuda please set `cuda=true` as it’ll be crazy slow if you only use `Numpy`.
+2.	Use `bash train_test.sh` run the whole program, here you can choose different classifiers, if you have cuda please set `cuda=true` as it’ll be crazy slow if you only use `Numpy`.
 
 3.	Obviously, this work has some dependency requirements, please use `pip` or `conda` install them first. (you could just follow the python errors to check what you need)
 
