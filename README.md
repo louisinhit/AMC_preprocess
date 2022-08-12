@@ -1,46 +1,32 @@
 # AMC_preprocess
-# Python Signal Pre-processing Library for AMC
-Giving an input complex signal, and returning transformation outputs including: `['CCSD_graph', 'CCSD_profile', 'CWT', 'DWT', 'FT', 'HOS', 'RD_CTCF', 'SCD_graph', 'SCD_profile', 'STFT']`
+## Python Signal Pre-processing Library for AMC
 
-Library is inside the `lib` folder.
+This work corresponds to the IEEE Access paper: <https://ieeexplore.ieee.org/abstract/document/9852206>
 
-- The current functions does not support pip operations and therefore requires to copy these files to 
-where you need to implement transforms. For initial usage, you can start by playing with the `lib_usage_run_all_test.ipynb`.
-- This library can be called by `import lib_interface as Name`
-- Initialisation: All keywords arguments are passed to lib using dictionary datatype.
-
+If you want to use these code please cite our paper:
 ```
-USE_CUDA = True                                     ### Do you have cuda? If you don't set to False.
-SAVE = True                                         ### Save the multi-dimension output features to .h5 file?
-
-input_data = # a numpy array with shape [n_classes, n_samples, signal_length] dtype = np.cfloat
-length = input_data.shape[-1]                       ### The length of input signal, for example, 1024.
-
-params = {  'window_size'    : int(length / 4),
-            'window_step'    : int(length / 8),
-            'dwt_wave'       : 'haar',
-            'cwt_wave'       : 'gaus1',
-            'cwt_scal'       : int(length / 8),
-            'ccsd_sigma'     : 0.5,
-            'ctcf_resolution': 2
-            }                                       ### These are suggested settings, you can customize them.
-
-# usage one: ONLY do transformations.
-features = Name.Trans_Pool(cuda=USE_CUDA, save_to_file=SAVE, **params)
-x1 = features(input_data.reshape((-1, length)))     ### Call the library and the return datatype is also dictionary.
-
-# usage two: implement transformations and LDA classifier test.
-# all test results including accuracy and running status are saved to a logbook named "Trans_and_test_logbook.txt"
-features = Name.Trans_and_Test(cuda=USE_CUDA, save_to_file=SAVE, **params)
-x2 = features(input_data)                           ### Call the library and the return datatype is also dictionary.
+@ARTICLE{9852206,
+  author={Liu, Xueyuan and Li, Carol Jingyi and Jin, Craig and Leong, Philip H.W.},
+  journal={IEEE Access}, 
+  title={Wireless Signal Representation Techniques for Automatic Modulation Classification}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-1},
+  doi={10.1109/ACCESS.2022.3197224}}
 ```
+Initially, to reproduce the results, please download the dataset first: <https://www.kaggle.com/datasets/pinxau1000/radioml2018>
 
-Some explanation of keywords arguments:
-- `window_size` and `window_step`: Control the sliding window when the transformation involves in it. One-quarter and one-eighth of the input length are good enough.
-- `dwt_wave`: Controls the wavelet type used in DWT, choose from `['bior1.1', 'bior1.3', 'bior1.5', 'bior2.2', 'bior2.4', 'bior2.6', 'bior2.8', 'bior3.1', 'bior3.3', 'bior3.5', 'bior3.7', 'bior3.9', 'bior4.4', 'bior5.5', 'bior6.8', 'coif1', 'coif2', 'coif3', 'coif4', 'coif5', 'coif6', 'coif7', 'coif8', 'coif9', 'coif10', 'coif11', 'coif12', 'coif13', 'coif14', 'coif15', 'coif16', 'coif17', 'db1', 'db2', 'db3', 'db4', 'db5', 'db6', 'db7', 'db8', 'db9', 'db10', 'db11', 'db12', 'db13', 'db14', 'db15', 'db16', 'db17', 'db18', 'db19', 'db20', 'db21', 'db22', 'db23', 'db24', 'db25', 'db26', 'db27', 'db28', 'db29', 'db30', 'db31', 'db32', 'db33', 'db34', 'db35', 'db36', 'db37', 'db38', 'dmey', 'haar', 'rbio1.1', 'rbio1.3', 'rbio1.5', 'rbio2.2', 'rbio2.4', 'rbio2.6', 'rbio2.8', 'rbio3.1', 'rbio3.3', 'rbio3.5', 'rbio3.7', 'rbio3.9', 'rbio4.4', 'rbio5.5', 'rbio6.8', 'sym2', 'sym3', 'sym4', 'sym5', 'sym6', 'sym7', 'sym8', 'sym9', 'sym10', 'sym11', 'sym12', 'sym13', 'sym14', 'sym15', 'sym16', 'sym17', 'sym18', 'sym19', 'sym20']`
-- `cwt_wave`: Controls the wavelet type used in CWT, choose from `['cgau1', 'cgau2', 'cgau3', 'cgau4', 'cgau5', 'cgau6', 'cgau7', 'cgau8', 'cmor', 'fbsp', 'gaus1', 'gaus2', 'gaus3', 'gaus4', 'gaus5', 'gaus6', 'gaus7', 'gaus8', 'mexh', 'morl', 'shan']`
-- `cwt_scal`: The scale factor of CWT. One-eighth of the input length is good enough.
-- `ccsd_sigma`: The sigma value in CCSD, common range is `[0.001, 1.0]`, 0.5 is good enough for RML dataset.
-- `ctcf_resolution`: Determines the precision of `RD-CTCF`, 2 is good enough.
+Our train and test only use a subset if it, as the original one has 20GB which is not good for LDA classifier. To generate the subset and then reproduce the experiments, just simply following:
 
-Please let me know if you have any question!
+1.	Change the `hf = h5py.File('path/to/the/GOLD_XYZ_OSC.0001_1024.hdf5', 'r+')` in `gen_subset.py` into the path that can navigate to the dataset.
+
+2.	Use `train_test.sh` run the whole program, here you can choose different classifiers, if you have cuda please set `cuda=true` as it’ll be crazy slow if you only use `Numpy`.
+
+3.	Obviously, this work has some dependency requirements, please use `pip` or `conda` install them first. (you could just follow the python errors to check what you need)
+
+4.	This program will generate some `.txt` and `.png` automatically, including the test accuracy and confusion matrixes.
+
+Please let me know if you have any question! You can email us or leave comments in Issues!
+
+<maggieliuyuri@gmail.com>
