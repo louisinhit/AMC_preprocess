@@ -64,56 +64,45 @@ def element_HOS(s):
     return normalize(C20,C21,C40,C41,C42,C60,C61,C62,C63,C80,C82,C84,M101,M103)
 
 
-class RD_CTCF:
-    def __init__(self, window_size, step, res=2, fs_fc=False):
-        self.window_size = window_size
-        self.step = step
-        self.wt = np.r_[0.0:float(window_size)] / window_size
-        if not fs_fc:
-            self.al = np.linspace(-0.5*window_size, 0.5*window_size, num=int(window_size*res))
-        else:
-            self.al = np.linspace((4.0*window_size/fs_fc - window_size), (4.0*window_size/fs_fc + window_size), num=int(2.0*window_size*res))
-
-    def __call__(self, s):
-        return self.cyclic(s)
-    
-    def cmf(self, s, p, q):
-        m = p - q
-        L = s.shape[-1]
-        s = pow(s, m) * pow(np.conj(s), q)
-        no = int(np.floor((L - self.window_size) / self.step)) + 1
-        shape = (no, self.window_size)
-        out = []
-        for i in s:
-            strides = (i.strides[-1] * self.step, i.strides[-1])  # size block * window
-            out.append(np.lib.stride_tricks.as_strided(i, shape=shape, strides=strides))
-        s = np.asarray(out)    # size n * block * window
+def cmf(s, p, q, window_size=512, step=128):
+    wt = np.r_[0.0:float(window_size)] / window_size
+    al = np.linspace(-0.5*window_size, 0.5*window_size, num=int(window_size*2))
+    m = p - q
+    L = s.shape[-1]
+    s = pow(s, m) * pow(np.conj(s), q)
+    no = int(np.floor((L - window_size) / step)) + 1
+    shape = (no, window_size)
+    out = []
+    for i in s:
+        strides = (i.strides[-1] * step, i.strides[-1])  # size block * window
+        out.append(np.lib.stride_tricks.as_strided(i, shape=shape, strides=strides))
+    s = np.asarray(out)    # size n * block * window
         
-        suanzi = np.outer(self.al, self.wt)
-        suanzi = np.exp(-2j*np.pi*suanzi)  # size alpha * window
-        cmf = np.einsum('nki,ji->nkj', np.asarray(s), suanzi) / np.asarray(self.window_size)        
-        del s, suanzi, out
-        return np.mean(cmf, axis=1)
+    suanzi = np.outer(al, wt)
+    suanzi = np.exp(-2j*np.pi*suanzi)  # size alpha * window
+    cmf = np.einsum('nki,ji->nkj', np.asarray(s), suanzi) / np.asarray(window_size)        
+    del s, suanzi, out
+    return np.mean(cmf, axis=1)
 
-
-    def cyclic(self, s):        
-        s = np.asarray(s)
-        a = s.real
-        b = s.imag
-        s = s / np.sqrt(np.mean(a**2 + b**2, axis=-1, keepdims=True))
-        M20 = self.cmf(s, p=2, q=0)
-        M21 = self.cmf(s, p=2, q=1)
-        M22 = self.cmf(s, p=2, q=2)
-        M40 = self.cmf(s, p=4, q=0)
-        M41 = self.cmf(s, p=4, q=1)
-        M42 = self.cmf(s, p=4, q=2)
-        M43 = self.cmf(s, p=4, q=3)
-        M61 = self.cmf(s, p=6, q=1)
-        M63 = self.cmf(s, p=6, q=3)
     
-        C40 = M40 - 3*M20*M20
-        C42 = M42 - abs(M20)**2 - 2*M21*M21
-        C61 = M61 - 5*M21*M40 - 10*M20*M41 + 30*M20*M20*M21
-        C63 = M63 - 9*M21*M42  - 3*M20*M43 - 3*M22*M41 + 18*M20*M21*M22 + 12*M21*M21*M21
-        return np.stack((C40, C42, C61, C63)).transpose((1, 0, 2))
-        
+def RD_CTCF(s):        
+    s = np.asarray(s)
+    a = s.real
+    b = s.imag
+    s = s / np.sqrt(np.mean(a**2 + b**2, axis=-1, keepdims=True))
+    M20 = cmf(s, p=2, q=0)
+    M21 = cmf(s, p=2, q=1)
+    M22 = cmf(s, p=2, q=2)
+    M40 = cmf(s, p=4, q=0)
+    M41 = cmf(s, p=4, q=1)
+    M42 = cmf(s, p=4, q=2)
+    M43 = cmf(s, p=4, q=3)
+    M61 = cmf(s, p=6, q=1)
+    M63 = cmf(s, p=6, q=3)
+    
+    C40 = M40 - 3*M20*M20
+    C42 = M42 - abs(M20)**2 - 2*M21*M21
+    C61 = M61 - 5*M21*M40 - 10*M20*M41 + 30*M20*M20*M21
+    C63 = M63 - 9*M21*M42  - 3*M20*M43 - 3*M22*M41 + 18*M20*M21*M22 + 12*M21*M21*M21
+    return np.stack((C40, C42, C61, C63)).transpose((1, 0, 2))
+    
