@@ -1,5 +1,5 @@
 # AMC_preprocess
-## Python Signal Pre-processing Library for AMC
+## Python Signal Pre-processing Library for AMC (or more applications ... we certainly hope that this repository will not only be used for AMC ... hahaha)
 
 This work corresponds to the IEEE Access paper: <https://ieeexplore.ieee.org/abstract/document/9852206>
 
