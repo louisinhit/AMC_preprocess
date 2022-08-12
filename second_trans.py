@@ -38,16 +38,16 @@ tr = int(pts // 10) * 9
 te = pts - tr
 hf.close()
 
-fi = open("logbook_second_trans.txt", "w")
-fi = open("logbook_second_trans.txt", "a")
-fi.write("Start \n")
+with open("logbook_second_trans.txt", "w") as out:
+    out.write("Start \n")
 
 ###############################################################
 ############################# train and test functions
 ###############################################################
 def sys_out(msg):
-    fi.writelines(msg)
     print (msg)
+    with open("logbook_second_trans.txt", 'a') as out:
+        out.write(msg + '\n')
 
 
 def create_label(num):
@@ -58,18 +58,18 @@ def create_label(num):
     return mo
 
 def classifier(out_tr, yy_tr, out_te, yy_te):
-    if classifier_ is 'LDA':
+    if classifier_ == 'LDA':
         lda = LDA().fit(out_tr, yy_tr)
         cm = confusion_matrix(yy_te, lda.predict(out_te))
         return lda.score(out_te, yy_te), cm
 
-    elif classifier_ is 'SGD':
+    elif classifier_ == 'SGD':
         clf = SGD(alpha=0.1, max_iter=100, shuffle=True, random_state=0, tol=1e-3)
         clf.fit(out_tr, yy_tr)
         cm = confusion_matrix(yy_te, clf.predict(out_te))
         return clf.score(out_te, yy_te), cm
     
-    elif classifier_ is 'LRG':
+    elif classifier_ == 'LRG':
         clf = LRG(random_state=0).fit(out_tr, yy_tr)
         cm = confusion_matrix(yy_te, clf.predict(out_te))
         return clf.score(out_te, yy_te), cm

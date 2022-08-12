@@ -1,7 +1,0 @@
-Start ccsd 256*256 maxpool 4*4 
-test ccsd image, high SNR. 
-0.579167 
-test ccsd image, middle SNR. 
-0.276974 
-test ccsd image, low SNR. 
-0.050439 

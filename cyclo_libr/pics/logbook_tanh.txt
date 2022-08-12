@@ -1,7 +1,0 @@
-Start 
-test tanh kernel, high SNR. 
-0.566667 
-test tanh kernel, middle SNR. 
-0.303070 
-test tanh kernel, low SNR. 
-0.054167 

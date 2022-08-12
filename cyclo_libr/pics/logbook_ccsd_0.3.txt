@@ -1,7 +1,0 @@
-Start 
-test ccsd image, high SNR. 
-0.592763 
-test ccsd image, middle SNR. 
-0.278509 
-test ccsd image, low SNR. 
-0.049342 

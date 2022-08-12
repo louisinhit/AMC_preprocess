@@ -3,7 +3,7 @@ import pywt
 import h5py, sys, argparse
 from scipy.fft import fft, fftshift
 import scipy.signal as scp
-from stockwell import st
+#from stockwell import st
 import matplotlib.pyplot as plt
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from sklearn.linear_model import LogisticRegression as LRG
@@ -33,9 +33,8 @@ parser.add_argument('--classifier', type=str, default='LDA')
 args = parser.parse_args()
 classifier_ = args.classifier
 
-fi = open("logbook_linear_trans.txt", "w")
-fi = open("logbook_linear_trans.txt", "a")
-fi.write("Start \n")
+with open("logbook_linear_trans.txt", 'w') as out:
+    out.write("Start \n")
 
 ###############################################################
 ############################# linear transforms functions
@@ -61,16 +60,17 @@ def STFT(s):
     _, __, data = scp.stft(s, nperseg=256, noverlap=128, return_onesided=False)
     return data
 
-def ST(s, fm=64):
-    s = st.st(s, 0, fm)
-    return s
+#def ST(s, fm=64):
+#    s = st.st(s, 0, fm)
+#    return s
 
 ###############################################################
 ############################# train and test functions
 ###############################################################
 def sys_out(msg):
-    fi.writelines(msg)
     print (msg)
+    with open("logbook_linear_trans.txt", 'a') as out:
+        out.write(msg + '\n')
 
 
 def create_label(num):
@@ -81,18 +81,18 @@ def create_label(num):
     return mo
 
 def classifier(out_tr, yy_tr, out_te, yy_te):
-    if classifier_ is 'LDA':
+    if classifier_ == 'LDA':
         lda = LDA().fit(out_tr, yy_tr)
         cm = confusion_matrix(yy_te, lda.predict(out_te))
         return lda.score(out_te, yy_te), cm
 
-    elif classifier_ is 'SGD':
+    elif classifier_ == 'SGD':
         clf = SGD(alpha=0.1, max_iter=100, shuffle=True, random_state=0, tol=1e-3)
         clf.fit(out_tr, yy_tr)
         cm = confusion_matrix(yy_te, clf.predict(out_te))
         return clf.score(out_te, yy_te), cm
     
-    elif classifier_ is 'LRG':
+    elif classifier_ == 'LRG':
         clf = LRG(random_state=0).fit(out_tr, yy_tr)
         cm = confusion_matrix(yy_te, clf.predict(out_te))
         return clf.score(out_te, yy_te), cm
@@ -108,12 +108,12 @@ def run(snr, trans):
         for j in snr:
             base = i * 26 + j
             s = x_train[base,:,:]
-            s = getattr(trans)(s)
+            s = eval(trans)(s)
             s = s.reshape((tr, -1))
             train.append(s)
 
             s = x_test[base,:,:]
-            s = getattr(trans)(s)
+            s = eval(trans)(s)
             s = s.reshape((te, -1))
             test.append(s)
 
@@ -188,4 +188,3 @@ for tt in trans_list:
     train_test(tt)
 
 sys_out('DONE')
-
