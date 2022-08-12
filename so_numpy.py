@@ -1,5 +1,4 @@
 import numpy as np
-import math
 import sys
 from scipy.fft import fft, fftshift
 from scipy import signal
@@ -39,7 +38,7 @@ def CHTC(s, N, L):
     return np.asarray(o)
 
 
-def scd(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=2) -> np.ndarray:
+def scd(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=0) -> np.ndarray:
     '''
     I follow the wiki step by step to write this function:
     https://en.wikipedia.org/wiki/Spectral_correlation_density
@@ -92,7 +91,7 @@ def scd(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=2) -> 
         return Sx
 
     
-def SCD(s: np.ndarray, N: int, L: int=0, pad: bool=True, algorithm: int=2) -> np.ndarray:
+def SCD(s: np.ndarray, N: int, L: int=0, pad: bool=True, algorithm: int=0) -> np.ndarray:
     if type(s).__module__ != np.__name__ or len(s.shape) != 2:
         sys.exit("the data should be 2D numpy array")
     o = []

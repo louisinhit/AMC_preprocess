@@ -1,8 +1,6 @@
 import numpy as np
 import cupy as cp
-import math
 from scipy import signal
-import os, sys, time
 
 
 def block_samples(s, window_size, step):
@@ -16,7 +14,7 @@ def block_samples(s, window_size, step):
     return np.asarray(out)
 
 
-def SCD(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=2) -> np.ndarray:
+def SCD(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=0) -> np.ndarray:
     '''
     I follow the wiki step by step to write this function:
     https://en.wikipedia.org/wiki/Spectral_correlation_density
@@ -60,7 +58,7 @@ def SCD(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=2) -> 
     ############################
     ####### original FAM #######
     ############################
-        scf = cp.fft.fftshift(cp.fftfft(scf, axis=1), axes=1)
+        scf = cp.fft.fftshift(cp.fft.fft(scf, axis=1), axes=1)
         scf = cp.abs(scf)
         Sx = cp.zeros((N, ws, 2*P*step), dtype=float)
         Mp = (P*step)//ws//2
@@ -72,7 +70,7 @@ def SCD(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=2) -> 
         return cp.asnumpy(Sx)
 
 
-def CHTC(s: np.ndarray, ws: int=512, step: int=512) -> np.ndarray:
+def CHTC(s: np.ndarray, ws: int=512, step: int=256) -> np.ndarray:
     s = block_samples(s, ws, step)
     L = s.shape[0]
     n = np.concatenate((s[:, 1:, :], np.zeros((L, 1, ws), dtype=s.dtype)), axis=1)
@@ -96,7 +94,7 @@ def CHTC(s: np.ndarray, ws: int=512, step: int=512) -> np.ndarray:
     return cp.asnumpy(o)
 
 
-def CCSD(s: np.ndarray, ws: int=512, step: int=512, sigma: float=0.3) -> np.ndarray:
+def CCSD(s: np.ndarray, ws: int=512, step: int=256, sigma: float=0.3) -> np.ndarray:
     '''
     I follow the steps listed in this paper:
     https://www.sciencedirect.com/science/article/pii/S0957417416305607
