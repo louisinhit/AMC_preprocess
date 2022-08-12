@@ -85,3 +85,4 @@ def CHTC(s, ws, step):
     mi = torch.amin(o, dim=(1, 2), keepdims=True)
     o = (o - mi) / (torch.amax(o, dim=(1, 2), keepdims=True) - mi)
     return o
+ 
