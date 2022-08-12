@@ -14,7 +14,7 @@ def block_samples(s, window_size, step):
     return np.asarray(out)
 
 
-def SCD(s: np.ndarray, ws: int, step: int=0, padding: bool=True, mtd: int=0) -> np.ndarray:
+def SCD(s: np.ndarray, ws: int=512, step: int=0, padding: bool=True, mtd: int=0) -> np.ndarray:
     '''
     I follow the wiki step by step to write this function:
     https://en.wikipedia.org/wiki/Spectral_correlation_density

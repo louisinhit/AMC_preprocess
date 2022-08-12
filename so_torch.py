@@ -1,5 +1,4 @@
 import math, torch
-import sys
 from torch.fft import fft, fftshift
 import numpy as np
 
@@ -10,7 +9,7 @@ def block_samples(s, window_size, step):
     return torch.as_strided(s, (s.shape[0], no, window_size), (L, step, 1))
 
 
-def scf_fam(s, ws):
+def scf_fam(s, ws=512):
     '''
     I follow the wiki step by step to write this function:
     https://en.wikipedia.org/wiki/Spectral_correlation_density
@@ -38,7 +37,7 @@ def scf_fam(s, ws):
     return torch.abs(torch.mean(scf, dim=1))
 
 
-def CCSD(s, ws, step, sigma):
+def CCSD(s, ws=512, step=256, sigma=0.3):
     '''
     I follow the steps listed in this paper:
     https://www.sciencedirect.com/science/article/pii/S0957417416305607
@@ -65,7 +64,7 @@ def CCSD(s, ws, step, sigma):
     return o
 
 
-def CHTC(s, ws, step):
+def CHTC(s, ws=512, step=256):
     s = block_samples(s, ws, step)
     L = s.shape[0]
     n = torch.cat((s[:, 1:, :], torch.zeros((L, 1, ws)).type_as(s)), dim=1)

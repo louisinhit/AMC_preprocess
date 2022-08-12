@@ -28,7 +28,7 @@ def chtc(s: np.ndarray, ws: int=512, step: int=256) -> np.ndarray:
     return np.abs(o)
 
 
-def CHTC(s, N, L):
+def CHTC(s, N=512, L=256):
     if type(s).__module__ != np.__name__ or len(s.shape) != 2:
         sys.exit("the data should be 2D numpy array")
     o = []
@@ -91,7 +91,7 @@ def scd(s: np.ndarray, ws: int=512, step: int=0, padding: bool=True, mtd: int=0)
         return Sx
 
     
-def SCD(s: np.ndarray, N: int, L: int=0, pad: bool=True, algorithm: int=0) -> np.ndarray:
+def SCD(s: np.ndarray, N: int=512, L: int=0, pad: bool=True, algorithm: int=0) -> np.ndarray:
     if type(s).__module__ != np.__name__ or len(s.shape) != 2:
         sys.exit("the data should be 2D numpy array")
     o = []
@@ -122,7 +122,7 @@ def ccsd(s: np.ndarray, ws: int=512, step: int=256, sigma: float=0.3) -> np.ndar
     return np.abs(K)
 
 
-def CCSD(s, N, L, sigma):
+def CCSD(s, N=512, L=256, sigma=0.3):
     if type(s).__module__ != np.__name__ or len(s.shape) != 2:
         sys.exit("the data should be 2D numpy array")
     o = []
