@@ -5,15 +5,15 @@ This work corresponds to the IEEE Access paper: <https://ieeexplore.ieee.org/abs
 
 If you want to use these code please cite our paper:
 ```
-@ARTICLE{9852206,
-  author={Liu, Xueyuan and Li, Carol Jingyi and Jin, Craig and Leong, Philip H.W.},
-  journal={IEEE Access}, 
-  title={Wireless Signal Representation Techniques for Automatic Modulation Classification}, 
-  year={2022},
-  volume={},
-  number={},
-  pages={1-1},
-  doi={10.1109/ACCESS.2022.3197224}}
+  @ARTICLE{9852206, 
+    author={Liu, Xueyuan and Li, Carol Jingyi and Jin, Craig T. and Leong, Philip H. W.},
+    journal={IEEE Access},  
+    title={Wireless Signal Representation Techniques for Automatic Modulation Classification}, 
+    year={2022}, 
+    volume={10}, 
+    number={}, 
+    pages={84166-84187},
+    doi={10.1109/ACCESS.2022.3197224}}
 ```
 Initially, to reproduce the results, please download the dataset first: <https://www.kaggle.com/datasets/pinxau1000/radioml2018>
 
