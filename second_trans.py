@@ -146,7 +146,7 @@ def train_test(T, profile):
     fig.savefig("{}_profile_{}_confusion_matrix_middle_SNR.png".format(T, str(profile)))
 
 
-    snr = range(8,16)
+    snr = range(0,8)
     x_tr, x_te = run(snr, T, profile)
     yy_tr = create_label(tr * len(snr))
     yy_te = create_label(te * len(snr))
