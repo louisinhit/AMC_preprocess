@@ -17,7 +17,7 @@ If you want to use these code please cite our paper:
 ```
 Initially, to reproduce the results, please download the dataset first: <https://www.kaggle.com/datasets/pinxau1000/radioml2018>
 
-Our train and test only use a subset if it, as the original one has 20GB which is not good for LDA classifier. To generate the subset and then reproduce the experiments, just simply following:
+Our train and test only use a subset of it, as the original one has 20GB which is not good for LDA classifier. To generate the subset and then reproduce the experiments, just simply following:
 
 1.	Change the `hf = h5py.File('path/to/the/GOLD_XYZ_OSC.0001_1024.hdf5', 'r+')` in `gen_subset.py` into the path that can navigate to the dataset.
 
