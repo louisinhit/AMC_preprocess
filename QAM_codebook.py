@@ -2,9 +2,11 @@ import numpy as np
 
 modulation = {}
 
-modulation[2] = np.asarray([1, 0], dtype=np.cfloat)
+#### THIS IS OOK
+#modulation[2] = np.asarray([1, 0], dtype=np.cfloat)
 
-#modulation[2] = np.asarray([1, -1], dtype=np.cfloat)
+### THIS IS BPSK
+modulation[2] = np.asarray([1, -1], dtype=np.cfloat)
 
 modulation[4] = np.asarray([1 +1j, -1 +1j, -1 -1j, 1 -1j], dtype=np.cfloat)
 
